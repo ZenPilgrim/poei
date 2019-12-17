@@ -1,1 +1,36 @@
-blablaindex.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <form #monForm=ngForm (ngSubmit)=modifDetail()>
+        <div>
+            Nom : <textarea type=text name=nom autocomplete="off" [(ngModel)]=detail.nom required #nom="ngModel">
+                    {{ detail.nom }}
+                </textarea>
+        </div>
+        <div>
+            Titre : <textarea type=text name=titre autocomplete="off" [(ngModel)]=detail.titre required #nom="ngModel">
+                        {{ detail.titre }}
+                    </textarea>
+        </div>
+        <div>
+            Commentaire : <textarea type=text name=nom autocomplete="off" [(ngModel)]=detail.commentaire required #nom="ngModel">
+                        {{ detail.commentaire }}
+                    </textarea>
+        </div>
+        <div>
+            <button [disabled]=!monForm.valid>
+                Modifier
+            </button>
+        </div>
+    </form>
+    <button type='bouton'>
+        <a [routerLink]="['/detail', elt.id+1]"><i class="fas fa-chevron-right"></i></a>
+    </button> 
+</body>
+</html>
