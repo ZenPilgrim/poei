@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Stagiaire {
 	private String nom;
-	private float [] notes = new float[3];
+	private float [] notes;
 	
 	
 	
