@@ -1,0 +1,36 @@
+﻿@model FirstAspNet.Models.Personne
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Inscription</title>
+</head>
+<body>
+    <h3>Inscription </h3>
+    @using (Html.BeginForm())
+    {
+        <div>
+            @Html.LabelFor(m => m.Prenom)
+            @Html.TextBoxFor(m => m.Prenom)
+            @Html.ValidationMessageFor(m => m.Prenom)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.Nom)
+            @Html.TextBoxFor(m => m.Nom)
+            @Html.ValidationMessageFor(m => m.Nom)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.Password)
+            @Html.PasswordFor(m => m.Password)
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+        <input type="submit" value="Inscription" />
+    }
+</body>
+</html>

@@ -1,0 +1,85 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        @{
+            var x = "5";
+            var result = x.IsInt();
+            var y = "true";
+            var resultat = y.IsBool();
+        }
+        <div>@result</div> @* affiche True *@
+        <div>@resultat</div> @* affiche True *@
+
+        @{
+            int nbr = 99;
+            if (nbr % 2 == 0)
+            {
+                <p> @nbr est pair </p>
+            }
+            else
+            {
+                <p> @nbr est impair </p>
+            }
+        }
+
+        <ul>
+            @switch (nbr)
+            {
+                case 0:
+                    <li>zero</li>
+                    ; break;
+                case 1:
+                    <li>un</li>
+                    ; break;
+                default:
+                    <li>autre</li>
+                    ; break;
+            }
+        </ul>
+
+        @for (var i = 0; i < 2; i++)
+        {<p> @i</p>}
+
+        <ul>
+            @{
+                var list = new List<int>();
+                list.Add(2);
+                list.Add(1);
+                list.Add(7);
+                foreach (var l in list)
+                {
+                    <li>@l</li>
+                }
+            }
+        </ul>
+
+
+
+        <ul>
+            @foreach (var elt in @ViewBag.list)
+            {
+                <li> @elt </li>
+            }
+        </ul>
+        <ul>
+            @foreach (var elt in @ViewData["list"] as List<int>)
+            {
+                <li> @elt </li>
+            }
+        </ul>
+        <p>@ViewBag.id</p>
+
+    </div>
+</body>
+</html>
