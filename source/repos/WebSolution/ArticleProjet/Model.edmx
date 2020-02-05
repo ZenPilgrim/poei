@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="ArticleSet" EntityType="Model.Store.ArticleSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CommandeSet" EntityType="Model.Store.CommandeSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LigneCommandeSet" EntityType="Model.Store.LigneCommandeSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ArticleLigneCommande" Association="Model.Store.ArticleLigneCommande">
+      <End Role="Article" EntitySet="ArticleSet" />
+      <End Role="LigneCommande" EntitySet="LigneCommandeSet" />
+    </AssociationSet>
+    <AssociationSet Name="CommandeLigneCommande" Association="Model.Store.CommandeLigneCommande">
+      <End Role="Commande" EntitySet="CommandeSet" />
+      <End Role="LigneCommande" EntitySet="LigneCommandeSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ArticleSet">
+    <Key>
+      <PropertyRef Name="IdArticle" />
+    </Key>
+    <Property Name="IdArticle" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="prixUnitaire" Type="float" Nullable="false" />
+    <Property Name="quantiteStock" Type="int" Nullable="false" />
+    <Property Name="nomArticle" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LigneCommande_IdLigneCommande" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="CommandeSet">
+    <Key>
+      <PropertyRef Name="numeroCommande" />
+    </Key>
+    <Property Name="numeroCommande" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dateCommande" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LigneCommandeSet">
+    <Key>
+      <PropertyRef Name="IdLigneCommande" />
+    </Key>
+    <Property Name="IdLigneCommande" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QuantiteCommande" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Commande_numeroCommande" Type="int" Nullable="true" />
+  </EntityType>
+  <Association Name="ArticleLigneCommande">
+    <End Role="Article" Type="Model.Store.ArticleSet" Multiplicity="*" />
+    <End Role="LigneCommande" Type="Model.Store.LigneCommandeSet" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="LigneCommande">
+        <PropertyRef Name="IdLigneCommande" />
+      </Principal>
+      <Dependent Role="Article">
+        <PropertyRef Name="LigneCommande_IdLigneCommande" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CommandeLigneCommande">
+    <End Role="Commande" Type="Model.Store.CommandeSet" Multiplicity="0..1" />
+    <End Role="LigneCommande" Type="Model.Store.LigneCommandeSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Commande">
+        <PropertyRef Name="numeroCommande" />
+      </Principal>
+      <Dependent Role="LigneCommande">
+        <PropertyRef Name="Commande_numeroCommande" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ArticleSet" EntityType="Model.Article" />
+          <EntitySet Name="CommandeSet" EntityType="Model.Commande" />
+          <EntitySet Name="LigneCommandeSet" EntityType="Model.LigneCommande" />
+          <AssociationSet Name="CommandeLigneCommande" Association="Model.CommandeLigneCommande">
+            <End Role="Commande" EntitySet="CommandeSet" />
+            <End Role="LigneCommande" EntitySet="LigneCommandeSet" />
+          </AssociationSet>
+          <AssociationSet Name="ArticleLigneCommande" Association="Model.ArticleLigneCommande">
+            <End Role="Article" EntitySet="ArticleSet" />
+            <End Role="LigneCommande" EntitySet="LigneCommandeSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Article">
+          <Key>
+            <PropertyRef Name="IdArticle" />
+          </Key>
+          <Property Name="IdArticle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="prixUnitaire" Type="Single" Nullable="false" />
+          <Property Name="quantiteStock" Type="Int32" Nullable="false" />
+          <Property Name="nomArticle" Type="String" Nullable="false" />
+          <NavigationProperty Name="LigneCommande" Relationship="Model.ArticleLigneCommande" FromRole="Article" ToRole="LigneCommande" />
+        </EntityType>
+        <EntityType Name="Commande">
+          <Key>
+            <PropertyRef Name="numeroCommande" />
+          </Key>
+          <Property Name="numeroCommande" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dateCommande" Type="String" Nullable="false" />
+          <NavigationProperty Name="LigneCommande" Relationship="Model.CommandeLigneCommande" FromRole="Commande" ToRole="LigneCommande" />
+        </EntityType>
+        <EntityType Name="LigneCommande">
+          <Key>
+            <PropertyRef Name="IdLigneCommande" />
+          </Key>
+          <Property Name="IdLigneCommande" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuantiteCommande" Type="String" Nullable="false" />
+          <NavigationProperty Name="Commande" Relationship="Model.CommandeLigneCommande" FromRole="LigneCommande" ToRole="Commande" />
+          <NavigationProperty Name="Article" Relationship="Model.ArticleLigneCommande" FromRole="LigneCommande" ToRole="Article" />
+        </EntityType>
+        <Association Name="CommandeLigneCommande">
+          <End Type="Model.Commande" Role="Commande" Multiplicity="0..1" />
+          <End Type="Model.LigneCommande" Role="LigneCommande" Multiplicity="*" />
+        </Association>
+        <Association Name="ArticleLigneCommande">
+          <End Type="Model.Article" Role="Article" Multiplicity="0..1" />
+          <End Type="Model.LigneCommande" Role="LigneCommande" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="ModelContainer">
+    <EntitySetMapping Name="ArticleSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Article)">
+        <MappingFragment StoreEntitySet="ArticleSet">
+          <ScalarProperty Name="IdArticle" ColumnName="IdArticle" />
+          <ScalarProperty Name="prixUnitaire" ColumnName="prixUnitaire" />
+          <ScalarProperty Name="quantiteStock" ColumnName="quantiteStock" />
+          <ScalarProperty Name="nomArticle" ColumnName="nomArticle" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CommandeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.Commande)">
+        <MappingFragment StoreEntitySet="CommandeSet">
+          <ScalarProperty Name="numeroCommande" ColumnName="numeroCommande" />
+          <ScalarProperty Name="dateCommande" ColumnName="dateCommande" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LigneCommandeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model.LigneCommande)">
+        <MappingFragment StoreEntitySet="LigneCommandeSet">
+          <ScalarProperty Name="IdLigneCommande" ColumnName="IdLigneCommande" />
+          <ScalarProperty Name="QuantiteCommande" ColumnName="QuantiteCommande" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="CommandeLigneCommande" TypeName="Model.CommandeLigneCommande" StoreEntitySet="LigneCommandeSet">
+      <EndProperty Name="Commande">
+        <ScalarProperty Name="numeroCommande" ColumnName="Commande_numeroCommande" />
+      </EndProperty>
+      <EndProperty Name="LigneCommande">
+        <ScalarProperty Name="IdLigneCommande" ColumnName="IdLigneCommande" />
+      </EndProperty>
+      <Condition ColumnName="Commande_numeroCommande" IsNull="false" />
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
